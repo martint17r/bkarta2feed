@@ -63,11 +63,19 @@ func readerFromURI(rawUri string) (io.ReadCloser, error) {
 func extractFeed(rawUri string, body io.Reader) (*feeds.Feed, error) {
 	now := time.Now()
 	feed := &feeds.Feed{
-		Title:       "jmoiron.net blog",
-		Link:        &feeds.Link{Href: rawUri},
-		Description: "discussion about tech, footie, photos",
-		Author:      &feeds.Author{Name: "Martin Treusch von Buttlar", Email: "fusion2feed@m.t17r.de"},
-		Created:     now,
+		Title: "Laufende Fusionskontrollverfahren",
+		Link:  &feeds.Link{Href: rawUri},
+		Description: `Hier finden Sie eine Liste der laufenden Fusionskontrollverfahren.
+
+Das Prüfverfahren beginnt nach dem Eingang der vollständigen Anmeldeunterlagen beim Bundeskartellamt. Die Behörde hat zunächst einen Monat Zeit, um den Zusammenschluss zu prüfen (sog. "erste Phase"). Erweist sich das Fusionsvorhaben als unproblematisch, gibt die Beschlussabteilung den Zusammenschluss vor Ablauf der Monatsfrist formlos frei.
+
+Hält die Beschlussabteilung dagegen eine weitere Prüfung für erforderlich, wird ein förmliches Hauptprüfverfahren eingeleitet (sog. "zweite Phase") und die Frist für die Prüfung des Vorhabens verlängert. Das Bundeskartellamt muss bei Durchführung eines Hauptprüfverfahrens innerhalb von vier Monaten ab Eingang der vollständigen Anmeldung entscheiden. Die Liste der Hauptprüfverfahren finden Sie hier.
+
+Bei den mit * gekennzeichneten Verfahren wurde der Zusammenschluss bereits vollzogen. Hier handelt es sich um eine nachträgliche Prüfung im fristungebundenen Verfahren nach § 41 Abs. 3 GWB.
+
+Die Liste erhebt keinen Anspruch auf Vollständigkeit.  `,
+		Author:  &feeds.Author{Name: "Martin Treusch von Buttlar", Email: "fusion2feed@m.t17r.de"},
+		Created: now,
 	}
 	feed.Items = make([]*feeds.Item, 0, 20)
 
