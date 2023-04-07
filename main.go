@@ -43,7 +43,30 @@ func readerFromURI(rawUri string) (io.ReadCloser, error) {
 	case "http":
 		fallthrough
 	case "https":
-		r, err := http.Get(uri.String())
+		req, err := http.NewRequest("GET", rawUri, nil)
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+		req.Header.Set("Accept-Language", "de-DE,de;q=0.9,en-DE;q=0.8,en;q=0.7,en-US;q=0.6")
+		req.Header.Set("Cache-Control", "no-cache")
+		req.Header.Set("Connection", "keep-alive")
+		req.Header.Set("Dnt", "1")
+		req.Header.Set("Pragma", "no-cache")
+		req.Header.Set("Sec-Fetch-Dest", "document")
+		req.Header.Set("Sec-Fetch-Mode", "navigate")
+		req.Header.Set("Sec-Fetch-Site", "none")
+		req.Header.Set("Sec-Fetch-User", "?1")
+		req.Header.Set("Upgrade-Insecure-Requests", "1")
+		req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36")
+		req.Header.Set("Sec-Ch-Ua", "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"")
+		req.Header.Set("Sec-Ch-Ua-Mobile", "?0")
+		req.Header.Set("Sec-Ch-Ua-Platform", "\"macOS\"")
+
+		r, err := http.DefaultClient.Do(req)
+		if err != nil {
+			return nil, err
+		}
 		if r.StatusCode >= 299 {
 			return nil, fmt.Errorf("can't handle status %q (%q) for %s", r.StatusCode, r.Status, uri)
 		}
